@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import Link from 'next/link';
 import LoadingSpinner from '../loading';
-
 
 interface Anime {
   mal_id: number;
@@ -30,7 +29,7 @@ export default function AnimeListPage() {
     threshold: 0,
   });
 
-  const fetchMoreAnime = async () => {
+  const fetchMoreAnime = useCallback(async () => {
     setLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -60,20 +59,16 @@ export default function AnimeListPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page]); // Add `page` as a dependency
 
   useEffect(() => {
     if (inView && !loading && hasMore) {
       fetchMoreAnime();
     }
-  }, [inView,hasMore,loading,fetchMoreAnime]);
-
- 
+  }, [inView, hasMore, loading, fetchMoreAnime]); // Add `fetchMoreAnime` to the dependency array
 
   return (
-    
     <div>
-    
       <div className="min-h-screen p-8 bg-gray-900 ">
         <h1 className="text-3xl font-bold mb-8 text-white p-8">Full List of Anime</h1>
         {animeList.length === 0 && !loading ? (
@@ -116,12 +111,10 @@ export default function AnimeListPage() {
           </div>
         )}
 
-        
         <div ref={ref} className="py-6">
           {loading && (
             <div className="text-center">
               <LoadingSpinner></LoadingSpinner>
-              
             </div>
           )}
           {!hasMore && (
@@ -130,6 +123,5 @@ export default function AnimeListPage() {
         </div>
       </div>
     </div>
-    
   );
 }

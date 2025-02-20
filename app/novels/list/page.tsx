@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react'; // Add useCallback
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import axios from 'axios';
@@ -33,7 +33,8 @@ export default function LightNovelListPage() {
     threshold: 0,
   });
 
-  const fetchMoreNovels = async () => {
+  // Wrap fetchMoreNovels in useCallback
+  const fetchMoreNovels = useCallback(async () => {
     setLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -67,15 +68,13 @@ export default function LightNovelListPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page]); // Add `page` as a dependency
 
   useEffect(() => {
     if (inView && !loading && hasMore) {
       fetchMoreNovels();
     }
-  }, [inView,fetchMoreNovels,hasMore,loading]);
-
-  
+  }, [inView, fetchMoreNovels, hasMore, loading]); // Add `fetchMoreNovels` to the dependency array
 
   return (
     <div>
@@ -130,12 +129,10 @@ export default function LightNovelListPage() {
           </div>
         )}
 
-        
         <div ref={ref} className="py-6">
           {loading && (
             <div className="text-center">
               <LoadingSpinner></LoadingSpinner>
-              
             </div>
           )}
           {!hasMore && (

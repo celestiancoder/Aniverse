@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react'; // Add useCallback
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import axios from 'axios';
@@ -17,6 +17,7 @@ interface Manga {
       image_url: string;
     };
   };
+  status: string;
 }
 
 export default function MangaListPage() {
@@ -29,23 +30,27 @@ export default function MangaListPage() {
     threshold: 0,
   });
 
-  const fetchMoreManga = async () => {
+  // Wrap fetchMoreManga in useCallback
+  const fetchMoreManga = useCallback(async () => {
     setLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      const response = await axios.get(`https://api.jikan.moe/v4/top/manga?page=${page}`);
+      const response = await axios.get(
+        `https://api.jikan.moe/v4/top/manga?page=${page}`
+      );
 
       if (!response.data || !response.data.data) {
         throw new Error('Invalid API response');
       }
 
-      const newManga = response.data.data.map((manga: any) => ({
+      const newManga = response.data.data.map((manga: Manga) => ({
         mal_id: manga.mal_id,
         title: manga.title,
         score: manga.score,
         type: manga.type,
         images: manga.images,
+        status: manga.status,
       }));
 
       if (newManga.length > 0) {
@@ -59,20 +64,18 @@ export default function MangaListPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page]); // Add `page` as a dependency
 
   useEffect(() => {
     if (inView && !loading && hasMore) {
       fetchMoreManga();
     }
-  }, [inView,fetchMoreManga,hasMore,loading]);
-
- 
+  }, [inView, fetchMoreManga, hasMore, loading]); // Add `fetchMoreManga` to the dependency array
 
   return (
     <div>
-      <div className="min-h-screen p-8 bg-gray-900 ">
-        <h1 className="text-3xl font-bold mb-8 text-white p-8">Full List of Manga</h1>
+      <div className="min-h-screen p-8 bg-gray-900 px-80">
+        <h1 className="text-3xl font-bold mb-8 text-white p-8">Manga Collection</h1>
         {mangaList.length === 0 && !loading ? (
           <p className="text-center text-gray-400">No manga found.</p>
         ) : (
@@ -102,10 +105,16 @@ export default function MangaListPage() {
                       transition={{ duration: 0.3 }}
                     />
                   </div>
-                  <div>
-                    <h2 className="text-xl font-semibold text-white ">{manga.title}</h2>
-                    <p className="text-sm text-gray-400 py-3">Rating: {manga.score}</p>
-                    <p className="text-sm text-gray-400 ">Type: {manga.type}</p>
+                  <div className="flex-1">
+                    <h2 className="text-xl font-semibold text-white">{manga.title}</h2>
+                    <div className="grid grid-cols-2 gap-2 mt-2">
+                      <p className="text-sm text-gray-400">
+                        Rating: {manga.score || 'N/A'}
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        Status: {manga.status}
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               </Link>
@@ -113,12 +122,10 @@ export default function MangaListPage() {
           </div>
         )}
 
-        
         <div ref={ref} className="py-6">
           {loading && (
             <div className="text-center">
               <LoadingSpinner></LoadingSpinner>
-              
             </div>
           )}
           {!hasMore && (

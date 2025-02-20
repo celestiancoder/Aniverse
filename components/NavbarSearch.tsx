@@ -3,7 +3,28 @@ import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
-// import Image from 'next/image';
+import Image from 'next/image'; // Import the Image component
+
+interface AnimeResponse {
+  mal_id: number;
+  title: string;
+  images: {
+    jpg: {
+      image_url: string;
+    };
+  };
+}
+
+interface MangaResponse {
+  mal_id: number;
+  title: string;
+  type: string;
+  images: {
+    jpg: {
+      image_url: string;
+    };
+  };
+}
 
 interface SearchResult {
   mal_id: number;
@@ -24,22 +45,22 @@ const NavbarSearch = () => {
       setResults([]);
       return;
     }
-    
+
     setIsLoading(true);
     try {
       const [animeResponse, mangaResponse] = await Promise.all([
-        axios.get(`https://api.jikan.moe/v4/anime?q=${query}&limit=3`),
-        axios.get(`https://api.jikan.moe/v4/manga?q=${query}&limit=3`),
+        axios.get<{ data: AnimeResponse[] }>(`https://api.jikan.moe/v4/anime?q=${query}&limit=3`),
+        axios.get<{ data: MangaResponse[] }>(`https://api.jikan.moe/v4/manga?q=${query}&limit=3`),
       ]);
 
-      const animeResults = animeResponse.data.data.map((item: any) => ({
+      const animeResults = animeResponse.data.data.map((item) => ({
         mal_id: item.mal_id,
         title: item.title,
-        type: 'anime',
+        type: 'anime' as const,
         image_url: item.images.jpg.image_url,
       }));
 
-      const mangaResults = mangaResponse.data.data.map((item: any) => ({
+      const mangaResults = mangaResponse.data.data.map((item) => ({
         mal_id: item.mal_id,
         title: item.title,
         type: item.type === 'Light Novel' ? 'novel' : 'manga',
@@ -122,10 +143,11 @@ const NavbarSearch = () => {
                 onClick={() => setIsDropdownVisible(false)}
               >
                 <div className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-                  <img
-                  
+                  <Image
                     src={result.image_url}
                     alt={result.title}
+                    width={40}
+                    height={40}
                     className="w-10 h-10 rounded-md object-cover"
                   />
                   <div className="ml-3">

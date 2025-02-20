@@ -1,9 +1,58 @@
+interface JikanAnimeResponse {
+  data: JikanAnime[];
+}
+
+interface JikanAnime {
+  mal_id: number;
+  title: string;
+  images: {
+    jpg: {
+      image_url: string;
+    };
+  };
+  aired?: {
+    from: string;
+  };
+  score?: number;
+  type?: string;
+}
+
+interface JikanNewsResponse {
+  data: JikanNewsItem[];
+}
+
+interface JikanNewsItem {
+  mal_id: number;
+  title: string;
+  excerpt: string;
+  url: string;
+  date: string;
+}
+
+interface CurrentSeasonAnime {
+  id: number;
+  title: string;
+  image: string;
+}
+
+interface TopAnime {
+  mal_id: number;
+  title: string;
+  score: number;
+  type: string;
+  images: {
+    jpg: {
+      image_url: string;
+    };
+  };
+}
+
 import AnimeScroller from '../components/AnimeScroller/AnimeScroller';
 import Link from 'next/link';
 import axios from 'axios';
 import AnimeList from '../components/AnimeList';
 import AnimeNews from '../components/AnimeNews';
-import { UpcomingAnime as UpcomingAnimeType, AnimeNews as AnimeNewsType } from '../types'; // Removed `ImportedAnime`
+import { UpcomingAnime as UpcomingAnimeType, AnimeNews as AnimeNewsType } from '../types';
 
 const api = axios.create({
   baseURL: 'https://api.jikan.moe/v4',
@@ -23,7 +72,7 @@ const fetchWithRetry = async (url: string, retries = 3) => {
   for (let i = 0; i < retries; i++) {
     try {
       if (i > 0) await delay(1000);
-      const response = await api.get(url);
+      const response = await api.get<JikanAnimeResponse | JikanNewsResponse>(url);
       return response.data;
     } catch (error) {
       if (i === retries - 1) throw error;
@@ -38,8 +87,8 @@ const fetchWithRetry = async (url: string, retries = 3) => {
 
 const fetchCurrentSeasonAnime = async (): Promise<CurrentSeasonAnime[]> => {
   try {
-    const data = await fetchWithRetry('/seasons/now');
-    return data.data.map((anime: any) => ({
+    const data = await fetchWithRetry('/seasons/now') as JikanAnimeResponse;
+    return data.data.map((anime: JikanAnime) => ({
       id: anime.mal_id,
       title: anime.title,
       image: anime.images.jpg.image_url,
@@ -52,11 +101,11 @@ const fetchCurrentSeasonAnime = async (): Promise<CurrentSeasonAnime[]> => {
 
 const fetchUpcomingAnime = async (): Promise<UpcomingAnimeType[]> => {
   try {
-    const data = await fetchWithRetry('/seasons/upcoming');
-    return data.data.map((anime: any) => ({
+    const data = await fetchWithRetry('/seasons/upcoming') as JikanAnimeResponse;
+    return data.data.map((anime: JikanAnime) => ({
       id: anime.mal_id,
       title: anime.title,
-      date: anime.aired.from,
+      date: anime.aired?.from ?? '',
     }));
   } catch (error) {
     console.error('Error fetching upcoming anime:', error);
@@ -66,8 +115,8 @@ const fetchUpcomingAnime = async (): Promise<UpcomingAnimeType[]> => {
 
 const fetchAnimeNews = async (): Promise<AnimeNewsType[]> => {
   try {
-    const data = await fetchWithRetry('/anime/1535/news');
-    return data.data.map((news: any) => ({
+    const data = await fetchWithRetry('/anime/1535/news') as JikanNewsResponse;
+    return data.data.map((news: JikanNewsItem) => ({
       id: news.mal_id,
       title: news.title,
       description: news.excerpt,
@@ -82,12 +131,12 @@ const fetchAnimeNews = async (): Promise<AnimeNewsType[]> => {
 
 const fetchTopAnime = async (): Promise<TopAnime[]> => {
   try {
-    const data = await fetchWithRetry('/top/anime?limit=20');
-    return data.data.map((anime: any) => ({
+    const data = await fetchWithRetry('/top/anime?limit=20') as JikanAnimeResponse;
+    return data.data.map((anime: JikanAnime) => ({
       mal_id: anime.mal_id,
       title: anime.title,
-      score: anime.score,
-      type: anime.type,
+      score: anime.score ?? 0,
+      type: anime.type ?? 'Unknown',
       images: anime.images,
     }));
   } catch (error) {
@@ -95,6 +144,7 @@ const fetchTopAnime = async (): Promise<TopAnime[]> => {
     return [];
   }
 };
+
 
 export default async function AnimePage() {
   try {
