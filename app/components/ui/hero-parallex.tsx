@@ -3,16 +3,17 @@ import React from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Grechen_Fuemen } from "next/font/google";
+
 import { Emblema_One } from "next/font/google";
 import { FlipWords } from "@/components/ui/flipwords";
 import { MotionValue } from "framer-motion";
+import { Jim_Nightshade } from "next/font/google";
 
-
-const Grechen_FuemenFont=Grechen_Fuemen({
+const Jim_NightshadeFont=Jim_Nightshade({
   subsets:["latin"],
   weight:"400"
 })
+
 const Emblema_OneFont=Emblema_One({
   subsets:["latin"],
   weight:"400"
@@ -118,7 +119,7 @@ export const Header = () => {
       <h1 className={`text-3xl md:text-7xl font-extrabold text-white ${Emblema_OneFont.className} `}>
         Discover the Best of <FlipWords words={["Anime","Manga","Novel"]}/>
       </h1>
-      <p className={`max-w-4xl  text-2xl md:text-xl mt-8 text-neutral-200 ${Grechen_FuemenFont.className}`}>
+      <p className={`max-w-4xl  text-2xl md:text-xl mt-8 text-neutral-200 ${Jim_NightshadeFont.className}`}>
         Explore a curated collection of the most popular anime, manga, and novels. Dive into new worlds and find your next favorite!
       </p>
     </div>

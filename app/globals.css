@@ -63,36 +63,11 @@
   body {
     @apply bg-background text-foreground;
     
-      /* background-color: #212121; /* Dark gray */
-      /* min-height: 100vh; */
-      /* color: white; Ensure text is readable */ 
+      
     
   }
 }
-/* 
-.bg-radial-gradient {
-  background: radial-gradient(circle at center, #6d28d9, #1a1a1a);
-} */
- /* globals.css */
-/* Custom scrollbar */
-/* .scrollbar-hide::-webkit-scrollbar {
-  height: 8px;
-}
 
-.scrollbar-hide::-webkit-scrollbar-track {
-  background: #1a1a1a; /* Dark gray track */
-/* }
-
-.scrollbar-hide::-webkit-scrollbar-thumb {
-  background: #6d28d9; /* Purple thumb */
-  /* border-radius: 4px; */
-/* } */
-
-/* .scrollbar-hide::-webkit-scrollbar-thumb:hover {
-  background: #7c3aed; /* Lighter purple on hover */
-/* }   */
-
-/* Hide scrollbar for Chrome, Safari and Opera */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }

@@ -63,7 +63,7 @@ const Footer = () => {
         <div className="mt-12 pt-8 border-t border-gray-800">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm">
-              © {new Date().getFullYear()} AniVerse. All rights reserved.
+              ©  AniVerse. All rights reserved.
             </p>
            
           </div>
