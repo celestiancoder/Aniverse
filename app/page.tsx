@@ -88,7 +88,7 @@ const products = [
   
   {
     title: "Arknights",
-    link: "/game/arknights",
+    link: "/anime/50205",
     thumbnail: "/images/ark.jpg",
   },
   
