@@ -1,101 +1,129 @@
-import Image from "next/image";
+import Footer from '@/components/footer';
+import AnimeScroller from './components/AnimeScroller/AnimeScroller';
+import { HeroParallax } from './components/ui/hero-parallex';
+import { AnimatedTechStack } from '@/components/ui/AnimatedTechStack';
+
+
+
+interface Anime {
+  mal_id: number;
+  title: string;
+  score: number;
+  type: string;
+  images: {
+    jpg: {
+      image_url: string;
+    };
+  };
+}
+const techStack = [
+  {
+    name: "Next.js",
+    description: "A React framework for building server-rendered applications.",
+    src: "/images/nextjslogo.webp", 
+  },
+  {
+    name: "Tailwind CSS",
+    description: "A utility-first CSS framework for rapid UI development.",
+    src: "/images/tailwindlogo.webp", 
+  },
+  {
+    name: "TypeScript",
+    description: "A typed superset of JavaScript for better developer experience.",
+    src: "/images/typescriptlogo.png", 
+  },
+  {
+    name: "Framer Motion",
+    description: "A production-ready motion library for React.",
+    src: "/images/framerlogo.jpg", 
+  },
+  
+];
+
+
+
+
+const products = [
+  {
+    title: "Attack on Titan",
+    link: "/anime/attack-on-titan",
+    thumbnail: "/images/6257388.jpg",
+  },
+  {
+    title: "One Piece",
+    link: "/manga/13",
+    thumbnail: "/images/onepiece.jpg",
+  },
+  {
+    title: "Fate-Stay-night",
+    link: "/anime/356",
+    thumbnail: "/images/fatestay.jpg",
+  },
+  {
+    title: "Cyberpunk-Edgerunners",
+    link: "/anime/42310",
+    thumbnail: "/images/Cyberpunkedge.jpg",
+  },
+  {
+    title: "Naruto",
+    link: "/manga/11",
+    thumbnail: "/images/Narutomanga.jpg",
+  },
+  
+  {
+    title: "Your-Name",
+    link: "/anime/32281",
+    thumbnail: "/images/yournameim.jpg",
+  },
+  {
+    title: "Suzume",
+    link: "/anime/50594",
+    thumbnail: "/images/suzume.webp",
+  },
+  {
+    title: "Death Note",
+    link: "/manga/21",
+    thumbnail: "/images/deathnotemanga.jpg",
+  },
+  
+  {
+    title: "Arknights",
+    link: "/game/arknights",
+    thumbnail: "/images/ark.jpg",
+  },
+  
+];
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div>
+      
+      <div className="min-h-screen bg-gray-900 text-white">
+      
+      <HeroParallax products={products} />
+      <div className="flex justify-center">
+        Highlights of Tech Stacks used
+      </div>
+      
+      <AnimatedTechStack techStack={techStack} autoplay={true} />
+      <div className='flex justify-center font-extrabold py-32' >
+        More Updates coming in the future including a comment feature ! Stay Tuned
+      </div>
+      <Footer></Footer>
+      
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      
     </div>
-  );
+  
+    </div>
+    
+  )
+    
 }
+
+
+
+
+
+
