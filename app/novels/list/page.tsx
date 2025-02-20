@@ -33,12 +33,6 @@ export default function LightNovelListPage() {
     threshold: 0,
   });
 
-  useEffect(() => {
-    if (inView && !loading && hasMore) {
-      fetchMoreNovels();
-    }
-  }, [inView]);
-
   const fetchMoreNovels = async () => {
     setLoading(true);
     try {
@@ -52,7 +46,7 @@ export default function LightNovelListPage() {
         throw new Error('Invalid API response');
       }
 
-      const newNovels = response.data.data.map((novel: any) => ({
+      const newNovels = response.data.data.map((novel: LightNovel) => ({
         mal_id: novel.mal_id,
         title: novel.title,
         score: novel.score,
@@ -74,6 +68,14 @@ export default function LightNovelListPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (inView && !loading && hasMore) {
+      fetchMoreNovels();
+    }
+  }, [inView,fetchMoreNovels,hasMore,loading]);
+
+  
 
   return (
     <div>
@@ -137,7 +139,7 @@ export default function LightNovelListPage() {
             </div>
           )}
           {!hasMore && (
-            <p className="text-center text-gray-400">You've reached the end of the list.</p>
+            <p className="text-center text-gray-400">You have reached the end of the list.</p>
           )}
         </div>
       </div>

@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 interface SearchResult {
   mal_id: number;
@@ -122,7 +122,8 @@ const NavbarSearch = () => {
                 onClick={() => setIsDropdownVisible(false)}
               >
                 <div className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-                  <Image
+                  <img
+                  
                     src={result.image_url}
                     alt={result.title}
                     className="w-10 h-10 rounded-md object-cover"

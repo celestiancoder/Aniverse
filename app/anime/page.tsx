@@ -3,33 +3,25 @@ import Link from 'next/link';
 import axios from 'axios';
 import AnimeList from '../components/AnimeList';
 import AnimeNews from '../components/AnimeNews';
-import { Anime as ImportedAnime, UpcomingAnime as UpcomingAnimeType, AnimeNews as AnimeNewsType } from '../types';
-
-
-
+import { UpcomingAnime as UpcomingAnimeType, AnimeNews as AnimeNewsType } from '../types'; // Removed `ImportedAnime`
 
 const api = axios.create({
   baseURL: 'https://api.jikan.moe/v4',
 });
 
-
 api.interceptors.response.use(undefined, async (error) => {
   if (error.response?.status === 429) {
-    
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
     return api.request(error.config);
   }
   return Promise.reject(error);
 });
-
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const fetchWithRetry = async (url: string, retries = 3) => {
   for (let i = 0; i < retries; i++) {
     try {
-      
       if (i > 0) await delay(1000);
       const response = await api.get(url);
       return response.data;
@@ -106,20 +98,16 @@ const fetchTopAnime = async (): Promise<TopAnime[]> => {
 
 export default async function AnimePage() {
   try {
-    
-    const [topAnime, currentSeasonAnime, upcomingAnime, animeNews] = await Promise.all([
+    const [topAnime, currentSeasonAnime, animeNews] = await Promise.all([ // Removed `upcomingAnime`
       fetchTopAnime(),
       delay(500).then(() => fetchCurrentSeasonAnime()),
-      delay(1000).then(() => fetchUpcomingAnime()),
       delay(1500).then(() => fetchAnimeNews())
     ]);
 
     return (
       <div className="min-h-screen p-8 bg-gray-900">
-        
         <AnimeScroller title="Popular Anime" items={topAnime} />
 
-        
         <div className="mt-8 text-center flex items-center justify-center">
           <Link
             href="/anime/list"
@@ -131,7 +119,6 @@ export default async function AnimePage() {
         <div className="container mx-auto p-4">
           <h1 className="text-3xl font-bold mb-8 text-white">Anime Page</h1>
 
-          
           <section className="mb-12">
             <h2 className="text-2xl font-semibold mb-4 text-white">Current Season Anime</h2>
             {currentSeasonAnime.length > 0 ? (
@@ -141,7 +128,6 @@ export default async function AnimePage() {
             )}
           </section>
 
-          
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">Anime News</h2>
             {animeNews.length > 0 ? (

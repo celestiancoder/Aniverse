@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Anime } from '../types';
-import Image from 'next/image';
+
 
 interface AnimeListProps {
   anime: Anime[];

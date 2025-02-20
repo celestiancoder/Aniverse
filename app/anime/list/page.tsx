@@ -30,12 +30,6 @@ export default function AnimeListPage() {
     threshold: 0,
   });
 
-  useEffect(() => {
-    if (inView && !loading && hasMore) {
-      fetchMoreAnime();
-    }
-  }, [inView,hasMore,loading]);
-
   const fetchMoreAnime = async () => {
     setLoading(true);
     try {
@@ -67,6 +61,14 @@ export default function AnimeListPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (inView && !loading && hasMore) {
+      fetchMoreAnime();
+    }
+  }, [inView,hasMore,loading,fetchMoreAnime]);
+
+ 
 
   return (
     

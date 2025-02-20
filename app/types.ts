@@ -32,3 +32,5 @@ export interface Anime {
     type: 'anime' | 'manga' | 'novel';
     image_url: string;
   }
+
+  

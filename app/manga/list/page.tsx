@@ -29,12 +29,6 @@ export default function MangaListPage() {
     threshold: 0,
   });
 
-  useEffect(() => {
-    if (inView && !loading && hasMore) {
-      fetchMoreManga();
-    }
-  }, [inView]);
-
   const fetchMoreManga = async () => {
     setLoading(true);
     try {
@@ -66,6 +60,14 @@ export default function MangaListPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (inView && !loading && hasMore) {
+      fetchMoreManga();
+    }
+  }, [inView,fetchMoreManga,hasMore,loading]);
+
+ 
 
   return (
     <div>
@@ -120,7 +122,7 @@ export default function MangaListPage() {
             </div>
           )}
           {!hasMore && (
-            <p className="text-center text-gray-400">You've reached the end of the list.</p>
+            <p className="text-center text-gray-400">You have reached the end of the list.</p>
           )}
         </div>
       </div>

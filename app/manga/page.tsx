@@ -23,7 +23,7 @@ export default async function MangaPage() {
   const data = await res.json();
 
   
-  const topManga: Manga[] = data.data.map((manga: any) => ({
+  const topManga: Manga[] = data.data.map((manga: Manga) => ({
     mal_id: manga.mal_id,
     title: manga.title,
     score: manga.score,
