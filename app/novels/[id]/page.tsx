@@ -35,7 +35,7 @@ async function fetchNovelDetails(id: string) {
 }
 
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export default function NovelDetailsPage({ params }: Props) {

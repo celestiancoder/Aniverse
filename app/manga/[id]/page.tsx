@@ -33,7 +33,7 @@ async function fetchMangaDetails(id: string) {
 }
 
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export default function MangaDetailsPage({ params }: Props) {
