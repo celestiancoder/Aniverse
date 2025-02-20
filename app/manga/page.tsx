@@ -1,4 +1,4 @@
-import MangaScroller from '../components/Mangascroller/Mangascroller';
+import MangaScroller from '../components/MangaScroller/Mangascroller';
 import Link from 'next/link';
 
 interface Manga {
