@@ -97,7 +97,7 @@ export default function AnimeDetailsPage({ params }: Props) {
     };
 
     fetchData();
-  }, [id]);
+  }, [id,page]);
 
 
   const fetchMoreCharacters = useCallback(async () => {
@@ -153,7 +153,9 @@ export default function AnimeDetailsPage({ params }: Props) {
       >
         
         <div className="w-full md:w-1/3">
-          <img
+          <Image
+          height={500}
+          width={300}
             src={anime.images.jpg.image_url}
             
             alt={anime.title}
@@ -266,7 +268,9 @@ export default function AnimeDetailsPage({ params }: Props) {
                   <div className="mt-2">
                     <p className="text-sm text-gray-400">Voice Actor:</p>
                     <div className="flex items-center mt-1">
-                      <img
+                      <Image
+                      height={500}
+                      width={300}
                         src={character.voice_actors[0].person.images.jpg.image_url}
                         alt={character.voice_actors[0].person.name}
                         className="w-8 h-8 rounded-full mr-2"

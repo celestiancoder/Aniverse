@@ -1,9 +1,9 @@
-import axios, { AxiosError } from 'axios'; // Import AxiosError
+import axios from 'axios'; // Import AxiosError
 import AnimeScroller from '../components/AnimeScroller/AnimeScroller';
 import Link from 'next/link';
 import AnimeList from '../components/AnimeList';
 import AnimeNews from '../components/AnimeNews';
-import { UpcomingAnime as UpcomingAnimeType, AnimeNews as AnimeNewsType } from '../types';
+import {  AnimeNews as AnimeNewsType } from '../types';
 
 interface JikanAnimeResponse {
   data: JikanAnime[];
