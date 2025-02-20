@@ -34,8 +34,12 @@ async function fetchNovelDetails(id: string) {
   return response.data.data;
 }
 
-export default function NovelDetailsPage({ params }: { params: { id: string } }) {
-  const { id } = use(params);
+type Props = {
+  params: { id: string }
+}
+
+export default function NovelDetailsPage({ params }: Props) {
+  const { id } = params;
   const [novel, setNovel] = useState<Novel | null>(null);
   const [loading, setLoading] = useState(true);
 

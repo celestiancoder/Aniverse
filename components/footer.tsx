@@ -1,6 +1,7 @@
 import React from 'react';
 import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
 import { Mail } from 'lucide-react';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -20,9 +21,9 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-white">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="/anime" className="hover:text-white transition-colors">Anime</a></li>
-              <li><a href="/manga" className="hover:text-white transition-colors">Manga</a></li>
-              <li><a href="/novels" className="hover:text-white transition-colors">Novel</a></li>
+              <li><Link href="/anime" className="hover:text-white transition-colors">Anime</Link></li>
+              <li><Link href="/manga" className="hover:text-white transition-colors">Manga</Link></li>
+              <li><Link href="/novels" className="hover:text-white transition-colors">Novel</Link></li>
               
               
             </ul>
@@ -32,28 +33,28 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-white">Connect</h3>
             <div className="flex space-x-4">
-              <a
+              <Link
                 href="https://github.com/celestiancoder"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition-colors"
               >
                 <GitHubLogoIcon className="w-6 h-6" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="https://linkedin.com/in/devaditta-patra-086220333"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition-colors"
               >
                 <LinkedInLogoIcon className="w-6 h-6" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="devarchon@gmail.com"
                 className="hover:text-white transition-colors"
               >
                 <Mail className="w-6 h-6" />
-              </a>
+              </Link>
               
             </div>
           </div>

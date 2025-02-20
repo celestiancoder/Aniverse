@@ -32,8 +32,12 @@ async function fetchMangaDetails(id: string) {
   return response.data.data;
 }
 
-export default function MangaDetailsPage({ params }: { params: { id: string } }) {
-  const { id } = use(params);
+type Props = {
+  params: { id: string }
+}
+
+export default function MangaDetailsPage({ params }: Props) {
+  const { id } = params;
 
   const [manga, setManga] = useState<Manga | null>(null);
   const [loading, setLoading] = useState(true);

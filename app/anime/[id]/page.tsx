@@ -63,9 +63,13 @@ async function fetchCharacters(id: string, page: number = 1) {
   return response.data.data;
 }
 
-export default function AnimeDetailsPage({ params }: { params: { id: string } }) {
+type Props = {
+  params: { id: string }
+}
+
+export default function AnimeDetailsPage({ params }: Props) {
   
-  const { id } = use(params);
+  const { id } = params;
 
   const [anime, setAnime] = useState<Anime | null>(null);
   const [characters, setCharacters] = useState<Character[]>([]);
