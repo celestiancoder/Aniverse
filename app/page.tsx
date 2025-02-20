@@ -1,7 +1,7 @@
 import Footer from '@/components/footer';
 import AnimeScroller from './components/AnimeScroller/AnimeScroller';
 import { HeroParallax } from './components/ui/hero-parallex';
-import { AnimatedTechStack } from '@/components/ui/AnimatedTechStack';
+// import { AnimatedTechStack } from '@/components/ui/AnimatedTechStack';
 
 
 
@@ -101,11 +101,11 @@ export default function Home() {
       <div className="min-h-screen bg-gray-900 text-white">
       
       <HeroParallax products={products} />
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         Highlights of Tech Stacks used
-      </div>
+      </div> */}
       
-      <AnimatedTechStack techStack={techStack} autoplay={true} />
+      {/* <AnimatedTechStack techStack={techStack} autoplay={true} /> */}
       <div className='flex justify-center font-extrabold py-32' >
         More Updates coming in the future including a comment feature ! Stay Tuned
       </div>
