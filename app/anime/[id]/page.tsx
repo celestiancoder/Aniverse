@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef, useCallback, use } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios'; 
 import LoadingSpinner from '../loading';
-
+import Image from 'next/image';
 
 
 
@@ -132,7 +132,7 @@ export default function AnimeDetailsPage({ params }: Props) {
 
     container.addEventListener('scroll', handleScroll);
     return () => container.removeEventListener('scroll', handleScroll);
-  }, [fetchMoreCharacters]);
+  }, [fetchMoreCharacters,page]);
 
   if (loading) {
     return <LoadingSpinner></LoadingSpinner>;
@@ -251,9 +251,11 @@ export default function AnimeDetailsPage({ params }: Props) {
                 key={character.character.mal_id}
                 className="flex-shrink-0 w-48 bg-gray-800 rounded-lg p-4 shadow-lg"
               >
-                <img
+                <Image
                   src={character.character.images.jpg.image_url}
                   alt={character.character.name}
+                  height={500}
+                  width={300}
                   className="w-full h-32 object-cover rounded-lg mb-4"
                 />
                 <h3 className="text-lg font-semibold text-white">

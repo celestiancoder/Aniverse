@@ -56,16 +56,20 @@ const NavbarSearch = () => {
       const animeResults = animeResponse.data.data.map((item) => ({
         mal_id: item.mal_id,
         title: item.title,
-        type: 'anime' as const,
+        type: 'anime' as const, // Explicitly type as 'anime'
         image_url: item.images.jpg.image_url,
       }));
 
-      const mangaResults = mangaResponse.data.data.map((item) => ({
-        mal_id: item.mal_id,
-        title: item.title,
-        type: item.type === 'Light Novel' ? 'novel' : 'manga',
-        image_url: item.images.jpg.image_url,
-      }));
+      const mangaResults = mangaResponse.data.data.map((item) => {
+        // Explicitly type the `type` property
+        const resultType: 'manga' | 'novel' = item.type === 'Light Novel' || item.type === 'Novel' ? 'novel' : 'manga';
+        return {
+          mal_id: item.mal_id,
+          title: item.title,
+          type: resultType, // Use the explicitly typed variable
+          image_url: item.images.jpg.image_url,
+        };
+      });
 
       setResults([...animeResults, ...mangaResults]);
     } catch (error) {

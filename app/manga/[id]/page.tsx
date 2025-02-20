@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import LoadingSpinner from '../loading';
 import { use } from 'react';
+import Image from 'next/image';
 
 interface Manga {
   mal_id: number;
@@ -76,7 +77,9 @@ export default function MangaDetailsPage({ params }: Props) {
       >
         
         <div className="w-full md:w-1/3">
-          <img
+          <Image
+          height={500}
+          width={300}
             src={manga.images.jpg.image_url}
             alt={manga.title}
             className="w-full h-auto rounded-lg shadow-lg"

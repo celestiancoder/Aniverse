@@ -23,7 +23,7 @@ export default async function NovelsPage() {
   const data = await res.json();
 
   
-  const topNovels: LightNovel[] = data.data.map((novel: any) => ({
+  const topNovels: LightNovel[] = data.data.map((novel: LightNovel) => ({
     mal_id: novel.mal_id,
     title: novel.title,
     score: novel.score,

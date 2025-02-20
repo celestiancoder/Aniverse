@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Anime } from '../types';
+import Image from 'next/image';
 
 
 interface AnimeListProps {
@@ -12,7 +13,9 @@ export default function AnimeList({ anime }: AnimeListProps) {
       {anime.map((item) => (
         <Link key={item.id} href={`/anime/${item.id}`} passHref>
           <div className="flex-shrink-0 w-48 bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer hover:scale-105 transition-transform">
-            <img
+            <Image
+            width={300}
+            height={500}
               src={item.image}
               alt={item.title}
               className="w-full h-64 object-cover"

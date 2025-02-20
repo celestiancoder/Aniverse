@@ -1,3 +1,10 @@
+import axios, { AxiosError } from 'axios'; // Import AxiosError
+import AnimeScroller from '../components/AnimeScroller/AnimeScroller';
+import Link from 'next/link';
+import AnimeList from '../components/AnimeList';
+import AnimeNews from '../components/AnimeNews';
+import { UpcomingAnime as UpcomingAnimeType, AnimeNews as AnimeNewsType } from '../types';
+
 interface JikanAnimeResponse {
   data: JikanAnime[];
 }
@@ -47,22 +54,23 @@ interface TopAnime {
   };
 }
 
-import AnimeScroller from '../components/AnimeScroller/AnimeScroller';
-import Link from 'next/link';
-import axios from 'axios';
-import AnimeList from '../components/AnimeList';
-import AnimeNews from '../components/AnimeNews';
-import { UpcomingAnime as UpcomingAnimeType, AnimeNews as AnimeNewsType } from '../types';
-
 const api = axios.create({
   baseURL: 'https://api.jikan.moe/v4',
 });
 
 api.interceptors.response.use(undefined, async (error) => {
-  if (error.response?.status === 429) {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return api.request(error.config);
+  if (axios.isAxiosError(error)) {
+    if (error.response?.status === 429) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Check if error.config is defined
+      if (error.config) {
+        return api.request(error.config);
+      }
+    }
   }
+
+  // If error.config is undefined, reject the error
   return Promise.reject(error);
 });
 
@@ -76,10 +84,15 @@ const fetchWithRetry = async (url: string, retries = 3) => {
       return response.data;
     } catch (error) {
       if (i === retries - 1) throw error;
-      if (error.response?.status === 429) {
-        await delay(1000);
-        continue;
+
+      // Type guard to check if error is an AxiosError
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 429) {
+          await delay(1000);
+          continue;
+        }
       }
+
       throw error;
     }
   }
@@ -95,20 +108,6 @@ const fetchCurrentSeasonAnime = async (): Promise<CurrentSeasonAnime[]> => {
     }));
   } catch (error) {
     console.error('Error fetching current season anime:', error);
-    return [];
-  }
-};
-
-const fetchUpcomingAnime = async (): Promise<UpcomingAnimeType[]> => {
-  try {
-    const data = await fetchWithRetry('/seasons/upcoming') as JikanAnimeResponse;
-    return data.data.map((anime: JikanAnime) => ({
-      id: anime.mal_id,
-      title: anime.title,
-      date: anime.aired?.from ?? '',
-    }));
-  } catch (error) {
-    console.error('Error fetching upcoming anime:', error);
     return [];
   }
 };
@@ -145,13 +144,12 @@ const fetchTopAnime = async (): Promise<TopAnime[]> => {
   }
 };
 
-
 export default async function AnimePage() {
   try {
-    const [topAnime, currentSeasonAnime, animeNews] = await Promise.all([ // Removed `upcomingAnime`
+    const [topAnime, currentSeasonAnime, animeNews] = await Promise.all([
       fetchTopAnime(),
       delay(500).then(() => fetchCurrentSeasonAnime()),
-      delay(1500).then(() => fetchAnimeNews())
+      delay(1500).then(() => fetchAnimeNews()),
     ]);
 
     return (

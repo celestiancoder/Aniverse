@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 interface Anime {
@@ -89,7 +90,9 @@ const AnimeScroller = ({ title, items }: AnimeScrollerProps) => {
             <Link href={`/anime/${anime.mal_id}`}>
             <Card className="relative group overflow-hidden bg-gray-800 border-0">
               <div className="relative aspect-[2/3]">
-                <img
+                <Image
+                width={300}
+                height={500}
                   src={anime.images.jpg.image_url}
                   alt={anime.title}
                   

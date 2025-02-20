@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 interface Manga {
@@ -88,7 +89,9 @@ const MangaScroller = ({ title, items }: MangaScrollerProps) => {
            <Link href={`/manga/${manga.mal_id}`}>
             <Card className="relative group overflow-hidden bg-gray-800 border-0">
               <div className="relative aspect-[2/3]">
-                <img
+                <Image
+                height={500}
+                width={300}
                   src={manga.images.jpg.image_url}
                   alt={manga.title}
                   className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
