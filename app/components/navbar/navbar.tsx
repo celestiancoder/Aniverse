@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Menu, X, User } from 'lucide-react';
+import {  Menu, X, User } from 'lucide-react';
 import NavbarSearch from '@/components/NavbarSearch';
 
 const Navbar = () => {

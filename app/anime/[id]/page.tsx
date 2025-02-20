@@ -1,10 +1,10 @@
 'use client'; 
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback, use } from 'react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
-import { use } from 'react'; 
+import axios from 'axios'; 
 import LoadingSpinner from '../loading';
+
 
 
 
@@ -69,7 +69,7 @@ type Props = {
 
 export default function AnimeDetailsPage({ params }: Props) {
   
-  const { id } = params;
+  const { id } = use(params);
 
   const [anime, setAnime] = useState<Anime | null>(null);
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -155,6 +155,7 @@ export default function AnimeDetailsPage({ params }: Props) {
         <div className="w-full md:w-1/3">
           <img
             src={anime.images.jpg.image_url}
+            
             alt={anime.title}
             className="w-full h-auto rounded-lg shadow-lg"
           />

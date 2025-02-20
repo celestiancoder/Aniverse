@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
+
 interface Manga {
   mal_id: number;
   title: string;

@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import { use } from 'react';
 import LoadingSpinner from '../loading';
+import { use } from 'react';
 
 interface Novel {
   mal_id: number;
@@ -39,7 +39,7 @@ type Props = {
 }
 
 export default function NovelDetailsPage({ params }: Props) {
-  const { id } = params;
+  const { id } = use(params);
   const [novel, setNovel] = useState<Novel | null>(null);
   const [loading, setLoading] = useState(true);
 

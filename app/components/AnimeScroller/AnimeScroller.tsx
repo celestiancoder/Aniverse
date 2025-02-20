@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
+
 interface Anime {
   mal_id: number;
   title: string;
@@ -91,6 +92,7 @@ const AnimeScroller = ({ title, items }: AnimeScrollerProps) => {
                 <img
                   src={anime.images.jpg.image_url}
                   alt={anime.title}
+                  
                   className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                 />
                 

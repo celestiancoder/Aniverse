@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
 
+
 interface LightNovel {
   mal_id: number;
   title: string;

@@ -4,8 +4,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import { use } from 'react';
 import LoadingSpinner from '../loading';
+import { use } from 'react';
 
 interface Manga {
   mal_id: number;
@@ -37,7 +37,7 @@ type Props = {
 }
 
 export default function MangaDetailsPage({ params }: Props) {
-  const { id } = params;
+  const { id } = use(params);
 
   const [manga, setManga] = useState<Manga | null>(null);
   const [loading, setLoading] = useState(true);

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "./components/navbar/navbar";
 import { Jim_Nightshade } from "next/font/google";
-import Footer from "@/components/footer";
+
 
 
 const Jim_NightshadeFont=Jim_Nightshade({

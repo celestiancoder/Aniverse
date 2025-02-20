@@ -1,44 +1,43 @@
 import Footer from '@/components/footer';
-import AnimeScroller from './components/AnimeScroller/AnimeScroller';
 import { HeroParallax } from './components/ui/hero-parallex';
 // import { AnimatedTechStack } from '@/components/ui/AnimatedTechStack';
 
 
 
-interface Anime {
-  mal_id: number;
-  title: string;
-  score: number;
-  type: string;
-  images: {
-    jpg: {
-      image_url: string;
-    };
-  };
-}
-const techStack = [
-  {
-    name: "Next.js",
-    description: "A React framework for building server-rendered applications.",
-    src: "/images/nextjslogo.webp", 
-  },
-  {
-    name: "Tailwind CSS",
-    description: "A utility-first CSS framework for rapid UI development.",
-    src: "/images/tailwindlogo.webp", 
-  },
-  {
-    name: "TypeScript",
-    description: "A typed superset of JavaScript for better developer experience.",
-    src: "/images/typescriptlogo.png", 
-  },
-  {
-    name: "Framer Motion",
-    description: "A production-ready motion library for React.",
-    src: "/images/framerlogo.jpg", 
-  },
+// interface Anime {
+//   mal_id: number;
+//   title: string;
+//   score: number;
+//   type: string;
+//   images: {
+//     jpg: {
+//       image_url: string;
+//     };
+//   };
+// }
+// const techStack = [
+//   {
+//     name: "Next.js",
+//     description: "A React framework for building server-rendered applications.",
+//     src: "/images/nextjslogo.webp", 
+//   },
+//   {
+//     name: "Tailwind CSS",
+//     description: "A utility-first CSS framework for rapid UI development.",
+//     src: "/images/tailwindlogo.webp", 
+//   },
+//   {
+//     name: "TypeScript",
+//     description: "A typed superset of JavaScript for better developer experience.",
+//     src: "/images/typescriptlogo.png", 
+//   },
+//   {
+//     name: "Framer Motion",
+//     description: "A production-ready motion library for React.",
+//     src: "/images/framerlogo.jpg", 
+//   },
   
-];
+// ];
 
 
 

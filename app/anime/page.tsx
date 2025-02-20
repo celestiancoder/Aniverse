@@ -7,6 +7,7 @@ import { Anime as ImportedAnime, UpcomingAnime as UpcomingAnimeType, AnimeNews a
 
 
 
+
 const api = axios.create({
   baseURL: 'https://api.jikan.moe/v4',
 });

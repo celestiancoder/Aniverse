@@ -34,7 +34,7 @@ export default function AnimeListPage() {
     if (inView && !loading && hasMore) {
       fetchMoreAnime();
     }
-  }, [inView]);
+  }, [inView,hasMore,loading]);
 
   const fetchMoreAnime = async () => {
     setLoading(true);
@@ -47,7 +47,7 @@ export default function AnimeListPage() {
         throw new Error('Invalid API response');
       }
 
-      const newAnime = response.data.data.map((anime: any) => ({
+      const newAnime = response.data.data.map((anime: Anime) => ({
         mal_id: anime.mal_id,
         title: anime.title,
         score: anime.score,
@@ -123,7 +123,7 @@ export default function AnimeListPage() {
             </div>
           )}
           {!hasMore && (
-            <p className="text-center text-gray-400">You've reached the end of the list.</p>
+            <p className="text-center text-gray-400">You have reached the end of the list.</p>
           )}
         </div>
       </div>
