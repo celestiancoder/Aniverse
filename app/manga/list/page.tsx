@@ -74,7 +74,7 @@ export default function MangaListPage() {
 
   return (
     <div>
-      <div className="min-h-screen p-8 bg-gray-900 px-80">
+      <div className="min-h-screen p-8 bg-gray-900">
         <h1 className="text-3xl font-bold mb-8 text-white p-8">Manga Collection</h1>
         {mangaList.length === 0 && !loading ? (
           <p className="text-center text-gray-400">No manga found.</p>

@@ -78,7 +78,7 @@ export default function LightNovelListPage() {
 
   return (
     <div>
-      <div className="min-h-screen p-8 bg-gray-900 px-80">
+      <div className="min-h-screen p-8 bg-gray-900 ">
         <h1 className="text-3xl font-bold mb-8 text-white p-8">Light Novels Collection</h1>
         {novelList.length === 0 && !loading ? (
           <p className="text-center text-gray-400">No light novels found.</p>

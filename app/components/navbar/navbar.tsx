@@ -105,17 +105,17 @@ const Navbar = () => {
               >
                 Novels
               </Link>
-              <Link 
+              {/* <Link 
                 href="/games" 
                 className="block text-xl text-white/90 hover:text-white transition-colors py-3"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Games
-              </Link>
+              </Link> */}
             </div>
 
             
-            <div className="mt-6">
+            <div className="mt-6 pb-96">
               <NavbarSearch />
             </div>
 
