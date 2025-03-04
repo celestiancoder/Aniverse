@@ -59,13 +59,13 @@ export default function AnimeListPage() {
     } finally {
       setLoading(false);
     }
-  }, [page]); // Add `page` as a dependency
+  }, [page]);
 
   useEffect(() => {
     if (inView && !loading && hasMore) {
       fetchMoreAnime();
     }
-  }, [inView, hasMore, loading, fetchMoreAnime]); // Add `fetchMoreAnime` to the dependency array
+  }, [inView, hasMore, loading, fetchMoreAnime]); 
 
   return (
     <div>

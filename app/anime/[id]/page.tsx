@@ -64,8 +64,9 @@ async function fetchCharacters(id: string, page: number = 1) {
 }
 
 type Props = {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }> 
 }
+
 
 export default function AnimeDetailsPage({ params }: Props) {
   
