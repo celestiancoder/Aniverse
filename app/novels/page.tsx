@@ -16,26 +16,31 @@ interface LightNovel {
 }
 
 export default async function NovelsPage() {
-  
-  const res = await fetch('https://api.jikan.moe/v4/top/manga?type=lightnovel', {
-    next: { revalidate: 10 },
-  });
-  const data = await res.json();
+  let topNovels: LightNovel[] = [];
 
-  
-  const topNovels: LightNovel[] = data.data.map((novel: LightNovel) => ({
-    mal_id: novel.mal_id,
-    title: novel.title,
-    score: novel.score,
-    type: novel.type,
-    images: novel.images,
-    volumes: novel.volumes,
-    status: novel.status,
-  }));
+  try {
+    const res = await fetch('https://api.jikan.moe/v4/top/manga?type=lightnovel', {
+      next: { revalidate: 10 },
+    });
+    if (!res.ok) {
+      throw new Error('Failed to fetch data');
+    }
+    const data = await res.json();
+    topNovels = data.data?.map((novel: LightNovel) => ({
+      mal_id: novel.mal_id,
+      title: novel.title,
+      score: novel.score,
+      type: novel.type,
+      images: novel.images,
+      volumes: novel.volumes,
+      status: novel.status,
+    })) || [];
+  } catch (error) {
+    console.error('Error fetching light novels:', error);
+  }
 
   return (
     <div className="min-h-screen p-8 bg-gray-900">
-      
       <LightNovelScroller title="Popular Light Novels" items={topNovels} />
       <div className="mt-8 text-center">
         <Link
