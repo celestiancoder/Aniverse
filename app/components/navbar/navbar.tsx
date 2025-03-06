@@ -1,12 +1,18 @@
-"use client";
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import {  Menu, X, User } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 import NavbarSearch from '@/components/NavbarSearch';
+import { Button } from '@/components/ui/button';
+import { useSession, signOut } from 'next-auth/react';
+import Image from 'next/image';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,7 +58,6 @@ const Navbar = () => {
               <Link href="/novels" className="text-white/90 hover:text-white transition-colors">
                 Novels
               </Link>
-              
             </div>
 
             
@@ -60,11 +65,46 @@ const Navbar = () => {
               
               <NavbarSearch />
 
-             
-              <button className="flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
-                <User size={18} />
-                <span>Sign In</span>
-              </button>
+              {session ? (
+                <div className="relative">
+                  <button 
+                    onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                    className="flex items-center space-x-2"
+                  >
+                    <Image
+                      src={session.user?.image || '/default-profile.png'}
+                      alt="Profile"
+                      width={32}
+                      height={32}
+                      className="rounded-full"
+                    />
+                    <span>{session.user?.name}</span>
+                  </button>
+                  {isProfileDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
+                      <Link
+                        href="/profile"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                      >
+                        Profile
+                      </Link>
+                      <button
+                        onClick={() => signOut()}
+                        className="block w-full px-4 py-2 text-gray-800 hover:bg-gray-200"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link href="/login">
+                  <Button className="flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
+                    <User size={18} />
+                    <span>Sign In</span>
+                  </Button>
+                </Link>
+              )}
             </div>
 
             
@@ -105,13 +145,6 @@ const Navbar = () => {
               >
                 Novels
               </Link>
-              {/* <Link 
-                href="/games" 
-                className="block text-xl text-white/90 hover:text-white transition-colors py-3"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Games
-              </Link> */}
             </div>
 
             
@@ -120,11 +153,19 @@ const Navbar = () => {
             </div>
 
             
-            <button className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white px-4 py-4 rounded-lg hover:opacity-90 transition-opacity mt-4">
-              <User size={20} />
-              <span className="text-lg">Sign In</span>
-            </button>
-            
+            {session ? (
+              <Button 
+                onClick={() => signOut()}
+                className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white px-4 py-4 rounded-lg hover:opacity-90 transition-opacity mt-4"
+              >
+                <span className="text-lg">Logout</span>
+              </Button>
+            ) : (
+              <Button className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white px-4 py-4 rounded-lg hover:opacity-90 transition-opacity mt-4">
+                <User size={20} />
+                <span className="text-lg"><Link href="/login">Sign In</Link></span>
+              </Button>
+            )}
           </div>
         </div>
       )}

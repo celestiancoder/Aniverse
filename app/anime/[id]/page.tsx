@@ -8,6 +8,7 @@ import Image from 'next/image';
 
 
 
+
 interface Anime {
   mal_id: number;
   title: string;

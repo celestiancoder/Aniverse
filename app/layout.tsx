@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "./components/navbar/navbar";
 import { Jim_Nightshade } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
 
 
 
@@ -31,7 +32,9 @@ export default function RootLayout({
       <body
         className={` antialiased ${Jim_NightshadeFont.className} text-2xl`}
       >
-        <Navbar />
+
+        <SessionProvider><Navbar /></SessionProvider>
+        
        
         
         
