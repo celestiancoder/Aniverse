@@ -5,8 +5,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios'; 
 import LoadingSpinner from '../loading';
 import Image from 'next/image';
-
-
+import BookmarkButton from '@/components/BookmarkButton';
 
 
 interface Anime {
@@ -195,6 +194,7 @@ export default function AnimeDetailsPage({ params }: Props) {
               <p className="text-gray-400">Rating:</p>
               <p>{anime.score}</p>
             </div>
+            <BookmarkButton itemId={id} itemType="anime" />
           </div>
         </div>
       </motion.div>

@@ -6,6 +6,7 @@ import axios from 'axios';
 import LoadingSpinner from '../loading';
 import { use } from 'react';
 import Image from 'next/image';
+import BookmarkButton from '@/components/BookmarkButton';
 
 interface Novel {
   mal_id: number;
@@ -124,6 +125,7 @@ export default function NovelDetailsPage({ params }: Props) {
               <p className="text-gray-400">Rating:</p>
               <p>{novel.score || 'N/A'}</p>
             </div>
+            <BookmarkButton itemId={id} itemType="anime" />
           </div>
         </div>
       </motion.div>

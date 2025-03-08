@@ -7,6 +7,7 @@ import NavbarSearch from '@/components/NavbarSearch';
 import { Button } from '@/components/ui/button';
 import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
+import BookmarkButton from '@/components/BookmarkButton';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -58,6 +59,7 @@ const Navbar = () => {
               <Link href="/novels" className="text-white/90 hover:text-white transition-colors">
                 Novels
               </Link>
+              <Link href="/Bookmarks" className="text-white/90 hover:text-white transition-colors">Bookmarks</Link>
             </div>
 
             
@@ -67,7 +69,8 @@ const Navbar = () => {
 
               {session ? (
                 <div className="relative">
-                  <button 
+                  
+                  <Button 
                     onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
                     className="flex items-center space-x-2"
                   >
@@ -79,7 +82,7 @@ const Navbar = () => {
                       className="rounded-full"
                     />
                     <span>{session.user?.name}</span>
-                  </button>
+                  </Button>
                   {isProfileDropdownOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
                       <Link
@@ -88,12 +91,13 @@ const Navbar = () => {
                       >
                         Profile
                       </Link>
-                      <button
+                      
+                      <Button
                         onClick={() => signOut()}
                         className="block w-full px-4 py-2 text-gray-800 hover:bg-gray-200"
                       >
                         Logout
-                      </button>
+                      </Button>
                     </div>
                   )}
                 </div>

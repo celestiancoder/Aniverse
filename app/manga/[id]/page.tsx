@@ -7,6 +7,7 @@ import axios from 'axios';
 import LoadingSpinner from '../loading';
 import { use } from 'react';
 import Image from 'next/image';
+import BookmarkButton from '@/components/BookmarkButton';
 
 interface Manga {
   mal_id: number;
@@ -119,6 +120,7 @@ export default function MangaDetailsPage({ params }: Props) {
               <p className="text-gray-400">Rating:</p>
               <p>{manga.score}</p>
             </div>
+            <BookmarkButton itemId={id} itemType="manga" />
           </div>
         </div>
       </motion.div>
