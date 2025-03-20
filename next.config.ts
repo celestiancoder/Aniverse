@@ -1,9 +1,23 @@
 import type { NextConfig } from "next";
 
-const  NextConfig = {
-  images:{
-    domains:['cdn.myanimelist.net']
+const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.myanimelist.net',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**',
+      },
+      
+    ],
   }
 };
 
-module.exports=NextConfig;
+module.exports = nextConfig;

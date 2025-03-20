@@ -6,14 +6,26 @@ import { Menu, X, User } from 'lucide-react';
 import NavbarSearch from '@/components/NavbarSearch';
 import { Button } from '@/components/ui/button';
 import { useSession, signOut } from 'next-auth/react';
-import Image from 'next/image';
-import BookmarkButton from '@/components/BookmarkButton';
+// import Image from 'next/image';
+// import BookmarkButton from '@/components/BookmarkButton';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const { data: session } = useSession();
+
+  // Force component to re-render whenever navigation occurs
+  // const [forceUpdate, setForceUpdate] = useState(0);
+  
+  // useEffect(() => {
+  //   // This ensures the component re-renders periodically to check for session updates
+  //   const interval = setInterval(() => {
+  //     setForceUpdate(prev => prev + 1);
+  //   }, 1000);
+    
+  //   return () => clearInterval(interval);
+  // }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,6 +44,19 @@ const Navbar = () => {
     }
   }, [isMobileMenuOpen]);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (isProfileDropdownOpen && !target.closest('.profile-dropdown')) {
+        setIsProfileDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isProfileDropdownOpen]);
+
   return (
     <>
       <nav className={`fixed w-full z-50 transition-all duration-300 ${
@@ -48,7 +73,6 @@ const Navbar = () => {
               </span>
             </Link>
 
-            
             <div className="hidden md:flex items-center space-x-8">
               <Link href="/anime" className="text-white/90 hover:text-white transition-colors">
                 Anime
@@ -59,42 +83,50 @@ const Navbar = () => {
               <Link href="/novels" className="text-white/90 hover:text-white transition-colors">
                 Novels
               </Link>
-              <Link href="/Bookmarks" className="text-white/90 hover:text-white transition-colors">Bookmarks</Link>
+              {session ? (
+                <Link href="/Bookmarks" className="text-white/90 hover:text-white transition-colors">Bookmarks</Link>
+              ) : (
+                <span></span>
+              )}
             </div>
 
-            
             <div className="hidden md:flex items-center space-x-6">
-              
               <NavbarSearch />
 
               {session ? (
-                <div className="relative">
-                  
+                <div className="relative profile-dropdown">
                   <Button 
                     onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                    className="flex items-center space-x-2"
+                    className="flex items-center space-x-2 "
                   >
-                    <Image
-                      src={session.user?.image || '/default-profile.png'}
-                      alt="Profile"
-                      width={32}
-                      height={32}
-                      className="rounded-full"
-                    />
-                    <span>{session.user?.name}</span>
+                    
+                    {/* <div className="w-7 h-7 relative rounded-full overflow-hidden ">
+                      <Image
+                        src={session.user.image || '/images/user-image.jpg'}
+                        alt="Profile"
+                        height={30}
+                        width={30}
+                        className="object-cover"
+                        // Add key to force re-render when image changes
+                        key={`profile-image-${session.user?.image || ''}-${forceUpdate}`}
+                      />
+                    </div>
+                    <span>{session.user?.name}</span> */}
                   </Button>
+                  
                   {isProfileDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
-                      <Link
-                        href="/profile"
-                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                    <div className="absolute right-0 mt-2 w-48 bg-gray-500 rounded-lg shadow-lg text-center">
+                      {/* <Link
+                        href="/profile/settings"
+                        className="block px-4 py-2 text-white hover:bg-gray-400"
+                        onClick={() => setIsProfileDropdownOpen(false)}
                       >
                         Profile
-                      </Link>
+                      </Link> */}
                       
                       <Button
                         onClick={() => signOut()}
-                        className="block w-full px-4 py-2 text-gray-800 hover:bg-gray-200"
+                        className="block w-full px-4 py-2 text-white hover:bg-gray-400"
                       >
                         Logout
                       </Button>
@@ -111,7 +143,6 @@ const Navbar = () => {
               )}
             </div>
 
-            
             <button 
               className="md:hidden text-white"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -122,11 +153,9 @@ const Navbar = () => {
         </div>
       </nav>
 
-      
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-0 z-40 bg-black/95 backdrop-blur-lg flex flex-col">
           <div className="flex-1 px-4 pt-20 pb-6 flex flex-col">
-           
             <div className="space-y-6 flex-1">
               <Link 
                 href="/anime" 
@@ -149,18 +178,27 @@ const Navbar = () => {
               >
                 Novels
               </Link>
+              {session ? (
+                <Link 
+                  href="/Bookmarks" 
+                  className="block text-xl text-white/90 hover:text-white transition-colors py-3" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Bookmarks
+                </Link>
+              ) : (
+                <span></span>
+              )}
             </div>
 
-            
             <div className="mt-6 pb-96">
               <NavbarSearch />
             </div>
 
-            
             {session ? (
               <Button 
                 onClick={() => signOut()}
-                className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white px-4 py-4 rounded-lg hover:opacity-90 transition-opacity mt-4"
+                className="fixed bottom-0 left-0 right-0 w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white px-4 py-4 rounded-none hover:opacity-90 transition-opacity"
               >
                 <span className="text-lg">Logout</span>
               </Button>

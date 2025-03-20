@@ -125,7 +125,7 @@ export default function NovelDetailsPage({ params }: Props) {
               <p className="text-gray-400">Rating:</p>
               <p>{novel.score || 'N/A'}</p>
             </div>
-            <BookmarkButton itemId={id} itemType="anime" />
+            <BookmarkButton itemId={id} itemType="manga" />
           </div>
         </div>
       </motion.div>

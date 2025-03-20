@@ -1,7 +1,8 @@
+// route.ts
 import { NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import { User } from '@/models/User';
-import { auth } from '@/auth';
+import connectDB from '@/app/api/auth/[...nextauth]/db';
+import { User } from '@/app/api/auth/[...nextauth]/models/User';
+import { auth } from '@/app/api/auth/[...nextauth]/auth';
 
 interface Bookmark {
   _id: string;
@@ -9,7 +10,7 @@ interface Bookmark {
   itemType: string;
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   const session = await auth();
   if (!session || !session.user) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });

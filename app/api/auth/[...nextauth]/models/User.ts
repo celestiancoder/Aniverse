@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
           itemType: { type: String, required: true },
         },
       ],
+      name:{type:String}
 })
 
 export const User=mongoose.models?.User || mongoose.model("User",userSchema) 

@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { IconBrandGithub } from "@tabler/icons-react"
 import { login } from '@/action/user'
-import { auth,signIn } from '@/auth'
+import { auth,signIn } from '@/app/api/auth/[...nextauth]/auth'
 import { redirect } from 'next/navigation'
 
 const Login = async() => {
@@ -64,7 +64,7 @@ const Login = async() => {
           
           <div className="flex justify-center mt-4">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/register" className="text-purple-500 hover:underline">
                 Sign-up
               </Link>

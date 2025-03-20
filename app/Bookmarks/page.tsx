@@ -6,13 +6,12 @@ import { Card } from '@/components/ui/card';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Trash } from 'lucide-react';
+import { Bookmark } from 'lucide-react'; // Import the Bookmark icon
 
 interface Bookmark {
   _id: string;
   itemId: string;
-  itemType: string;
+  itemType: 'anime' | 'manga' | 'novel';
 }
 
 interface ItemDetails {
@@ -25,6 +24,9 @@ interface ItemDetails {
       image_url: string;
     };
   };
+  volumes?: number; // For light novels
+  status?: string; // For light novels
+  chapters?: number; // For light novels
 }
 
 const BookmarksPage = () => {
@@ -67,7 +69,9 @@ const BookmarksPage = () => {
   // Fetch item details from Jikan API
   const fetchItemDetails = async (itemType: string, itemId: string) => {
     try {
-      const response = await fetch(`https://api.jikan.moe/v4/${itemType}/${itemId}`);
+      // Light novels are fetched from the 'manga' endpoint
+      const endpoint = itemType === 'novel' ? 'manga' : itemType;
+      const response = await fetch(`https://api.jikan.moe/v4/${endpoint}/${itemId}`);
       if (!response.ok) {
         if (response.status === 404) {
           console.warn(`Resource not found for ${itemType} ID ${itemId}`);
@@ -93,9 +97,39 @@ const BookmarksPage = () => {
         throw new Error('Failed to delete bookmark');
       }
       // Remove the deleted bookmark from the state
-      setBookmarks((prev: Bookmark[]) => prev.filter((bookmark: Bookmark) => bookmark._id !== bookmarkId));
+      setBookmarks((prev) => prev.filter((bookmark) => bookmark._id !== bookmarkId));
     } catch (error) {
       console.error('Error deleting bookmark:', error);
+    }
+  };
+
+  // Toggle bookmark status
+  const toggleBookmark = async (bookmarkId: string, itemId: string, itemType: string) => {
+    const isBookmarked = bookmarks.some((bookmark) => bookmark.itemId === itemId);
+    if (isBookmarked) {
+      await deleteBookmark(bookmarkId);
+    } else {
+      await addBookmark(itemId, itemType);
+    }
+  };
+
+  // Add a bookmark
+  const addBookmark = async (itemId: string, itemType: string) => {
+    try {
+      const response = await fetch('/api/bookmarks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ itemId, itemType }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to bookmark');
+      }
+
+      const newBookmark = await response.json();
+      setBookmarks((prev) => [...prev, newBookmark]);
+    } catch (error) {
+      console.error('Error bookmarking:', error);
     }
   };
 
@@ -108,11 +142,13 @@ const BookmarksPage = () => {
   }
 
   return (
-    <div className="min-h-screen p-8 bg-gray-900">
+    <div className="min-h-screen p-8 bg-gray-900 py-24">
       <h1 className="text-2xl font-bold text-white mb-6">Your Bookmarks</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {bookmarks.map((bookmark: Bookmark) => {
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {bookmarks.map((bookmark) => {
           const details = itemDetails[bookmark._id];
+          const isBookmarked = bookmarks.some((b) => b.itemId === bookmark.itemId);
+
           return (
             <motion.div
               key={bookmark._id}
@@ -122,7 +158,8 @@ const BookmarksPage = () => {
               transition={{ duration: 0.2 }}
               className="flex-none w-full"
             >
-              <Link href={`/${bookmark.itemType}/${bookmark.itemId}`}>
+              {/* Use the correct endpoint for light novels */}
+              <Link href={`/${bookmark.itemType === 'novel' ? 'manga' : bookmark.itemType}/${bookmark.itemId}`}>
                 <Card className="relative group overflow-hidden bg-gray-800 border-0">
                   <div className="relative aspect-[2/3]">
                     {details?.images?.jpg?.image_url && (
@@ -141,8 +178,14 @@ const BookmarksPage = () => {
                           <span className="text-sm font-semibold text-white">Score: {details.score}</span>
                         </div>
                       )}
-                      {details?.type && (
-                        <p className="text-sm text-white line-clamp-2">{details.type}</p>
+                      {details?.volumes && (
+                        <p className="text-sm text-white">Volumes: {details.volumes}</p>
+                      )}
+                      {details?.status && (
+                        <p className="text-sm text-white">Status: {details.status}</p>
+                      )}
+                      {details?.chapters && (
+                        <p className="text-sm text-white">Chapters: {details.chapters}</p>
                       )}
                     </div>
                   </div>
@@ -150,18 +193,21 @@ const BookmarksPage = () => {
                     <h3 className="font-semibold text-white line-clamp-2">
                       {details?.title || `Bookmark ${bookmark.itemId}`}
                     </h3>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      className="mt-2"
+                    {/* Bookmark Icon */}
+                    <motion.div
+                      whileHover={{ scale: 0.9 }}
+                      whileTap={{ scale: 0.9 }}
                       onClick={(e) => {
                         e.preventDefault(); // Prevent navigation
-                        deleteBookmark(bookmark._id);
+                        toggleBookmark(bookmark._id, bookmark.itemId, bookmark.itemType);
                       }}
+                      className="cursor-pointer"
                     >
-                      <Trash className="h-4 w-4 mr-2" />
-                      Delete
-                    </Button>
+                      <Bookmark
+                        className="h-6 w-6 text-white"
+                        fill={isBookmarked ? 'currentColor' : 'none'}
+                      />
+                    </motion.div>
                   </div>
                 </Card>
               </Link>
