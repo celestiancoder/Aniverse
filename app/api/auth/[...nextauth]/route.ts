@@ -1,2 +1,5 @@
-import { handlers } from "@/app/api/auth/[...nextauth]/auth" 
-export const { GET, POST } = handlers
+import { GET, POST } from '../../auth';
+
+export const runtime = 'nodejs'; // Force Node.js Runtime
+
+export { GET, POST };

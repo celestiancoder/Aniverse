@@ -1,10 +1,10 @@
 'use server'
 
-import connectDB from "@/app/api/auth/[...nextauth]/db";
-import { User } from "@/app/api/auth/[...nextauth]/models/User";
+import connectDB from "@/app/api/db";
+import { User } from "@/app/api/models/User";
 import { redirect } from "next/navigation";
 import { hash } from "bcryptjs";
-import { signIn } from "@/app/api/auth/[...nextauth]/auth";
+import { signIn } from "@/app/api/auth";
 // import { revalidatePath } from "next/cache";
 
 const login = async(formData: FormData) => {

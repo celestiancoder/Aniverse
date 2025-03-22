@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { IconBrandGithub } from "@tabler/icons-react"
 import { login } from '@/action/user'
-import { auth,signIn } from '@/app/api/auth/[...nextauth]/auth'
+import { auth,signIn } from '../api/auth'
 import { redirect } from 'next/navigation'
 
 const Login = async() => {

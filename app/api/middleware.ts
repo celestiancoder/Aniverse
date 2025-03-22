@@ -1,4 +1,4 @@
-export { auth as middleware } from "@/app/api/auth/[...nextauth]/auth"
+export { auth as middleware } from "@/app/api/auth"
 
 export const config = {
     runtime: 'nodejs', // Use Node.js runtime

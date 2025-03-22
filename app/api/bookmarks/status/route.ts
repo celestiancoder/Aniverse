@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import connectDB from '@/app/api/auth/[...nextauth]/db';
-import { User } from '@/app/api/auth/[...nextauth]/models/User';
+import connectDB from '@/app/api/db';
+import { User } from '@/app/api/models/User';
 
 
 interface Bookmark {

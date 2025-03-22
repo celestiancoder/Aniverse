@@ -1,23 +1,25 @@
-import { NextResponse } from 'next/server';
-import connectDB from '@/app/api/auth/[...nextauth]/db';
-import { User } from '@/app/api/auth/[...nextauth]/models/User';
-import { auth } from '@/app/api/auth/[...nextauth]/auth';
+import { NextRequest, NextResponse } from 'next/server';
+import connectDB from '@/app/api/db';
+import { User } from '@/app/api/models/User';
+import { auth } from '../../auth';
 
 export async function DELETE(
-  _: Request,
-  { params }: { params: { id: string } } // Correct type for params
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth();
   if (!session || !session.user) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
-  const bookmarkId = params.id; // Access the id from params
+  const resolvedParams = await params;
+  const bookmarkId = resolvedParams.id;
   const userId = session.user.id;
 
   await connectDB();
 
   try {
+    // Find the user and remove the bookmark by its ID
     const user = await User.findByIdAndUpdate(
       userId,
       { $pull: { bookmarks: { _id: bookmarkId } } },

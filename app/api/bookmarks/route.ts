@@ -1,14 +1,16 @@
-// route.ts
+// app/api/bookmarks/route.ts
 import { NextResponse } from 'next/server';
-import connectDB from '@/app/api/auth/[...nextauth]/db';
-import { User } from '@/app/api/auth/[...nextauth]/models/User';
-import { auth } from '@/app/api/auth/[...nextauth]/auth';
+import connectDB from '@/app/api/db';
+import { User } from '@/app/api/models/User';
+import { auth } from '../auth';
 
 interface Bookmark {
   _id: string;
   itemId: string;
   itemType: string;
 }
+
+export const runtime = 'nodejs'; // Force Node.js Runtime
 
 export async function GET() {
   const session = await auth();

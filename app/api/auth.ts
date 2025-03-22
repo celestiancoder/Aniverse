@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions, DefaultSession, Session, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import connectDB from "./db";
+import connectDB from "@/app/api/db";
 import { User as UserModel } from "./models/User"; // Renamed to avoid conflict with the User type
 import { compare } from "bcryptjs";
 import Github from "next-auth/providers/github";
@@ -120,7 +120,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
 
-    async signIn({  account}) {
+    async signIn({ account }) {
       if (account?.provider === 'credentials') {
         return true;
       } else {
@@ -130,4 +130,11 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);
+// Initialize NextAuth and get the handlers and utilities
+const { handlers, signIn, signOut, auth } = NextAuth(authOptions);
+
+// Export GET and POST handlers for the API route
+export const { GET, POST } = handlers;
+
+// Export signIn and signOut for use in components
+export { signIn, signOut, auth };
